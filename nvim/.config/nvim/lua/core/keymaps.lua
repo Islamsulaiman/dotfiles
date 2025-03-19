@@ -83,9 +83,11 @@ end, { desc = 'Open linting violations in floating mode' })
 
 -- copy the current buffer relative path
 vim.keymap.set('n', '<leader>cp', function()
-  vim.fn.setreg('+', vim.fn.expand('%:p'))
-  print("Copied: " .. vim.fn.expand('%:p'))
-end, { desc = 'Copy absolute path of the current buffer' })
+  -- Get the relative path from the project root (current working directory)
+  local relative_path = vim.fn.expand('%')
+  vim.fn.setreg('+', relative_path)
+  print("Copied: " .. relative_path)
+end, { desc = 'Copy relative path of the current buffer from project root' })
 
 -- Enable reordring tabs
 vim.keymap.set('n', '<C-M-h>', ':BufferLineMovePrev<CR>', { desc = 'Move buffer to the previous position' })
