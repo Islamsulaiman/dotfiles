@@ -11,6 +11,11 @@ return {
   {
     -- Powerful Git integration for Vim
     'tpope/vim-fugitive',
+    event = "VeryLazy",
+    config = function()
+      -- Keymap to open the remote PR/commit URL for the current line
+      vim.keymap.set("n", "<leader>gn", ":GBrowse<CR>", { desc = "Open line in remote PR" })
+    end,
   },
   {
     -- GitHub integration for vim-fugitive
