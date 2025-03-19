@@ -17,6 +17,11 @@ return {
           layout = "horizontal",
           horizontal = "right:60%", -- Preview on right
           wrap = true, -- Line wrapping in preview pane
+          scrollbar = "float", -- Bolder scrollbar for preview pane
+          scrolloff = 2, -- Small margin from right edge for visibility
+          winopts = {
+            border = { "", "│", "", "", "", "│", "", "│" }, -- Custom border with margin effect
+          },
         },
         wrap = true, -- Suggests wrapping, but fzf_opts enforces it
       },
@@ -24,6 +29,9 @@ return {
         ["--layout"] = "reverse",
         ["--info"] = "inline",
         ["--wrap"] = "", -- Enable wrapping for results pane
+        ["--scrollbar"] = "▊", -- Bolder scrollbar for files pane
+        ["--border"] = "none", -- Remove default fzf border to avoid overlap
+        ["--padding"] = "0,1", -- Add 1 column padding on left/right for margin
       },
       files = {
         fd_opts = "--type f --hidden --follow --exclude .git --exclude node_modules",
@@ -38,7 +46,6 @@ return {
           ["<C-f>"] = "toggle-fullscreen",
           ["<C-p>"] = "results-prev", -- Go up in file pane
         },
-        -- add the following keymaps in fzf specifically so it wont collide with others globally
         fzf = {
           ["ctrl-u"] = "preview-page-up", -- Go up in preview pane
           ["ctrl-d"] = "preview-page-down", -- Go down in preview pane
