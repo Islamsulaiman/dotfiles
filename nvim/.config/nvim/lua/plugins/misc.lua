@@ -61,4 +61,7 @@ return {
       bg_theme = "bamboo",
     },
   },
+  {
+    "tpope/vim-surround" -- to change wrapper characters
+  }
 }
