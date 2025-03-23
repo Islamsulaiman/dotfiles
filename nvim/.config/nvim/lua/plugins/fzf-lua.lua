@@ -8,12 +8,21 @@ return {
     -- Custom live_grep with optional exact match
     local function live_grep_exact(opts)
       opts = opts or {}
-      local exact = opts.exact or false -- Default to fuzzy unless specified
+      local exact = opts.exact or false
       fzf.live_grep({
         rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case -g '!.git' -g '!node_modules'" ..
-                  (exact and " --fixed-strings" or ""), -- Add --fixed-strings for exact match
-        fzf_opts = exact and { ["--exact"] = "" } or {}, -- Disable fuzzy matching in fzf
-        prompt = exact and "Exact Grep ❯ " or "Fuzzy Grep ❯ ", -- Visual cue
+                  (exact and " --fixed-strings" or ""),
+        fzf_opts = exact and { ["--exact"] = "" } or {},
+        prompt = exact and "Exact Grep ❯ " or "Fuzzy Grep ❯ ",
+      })
+    end
+
+    -- File search including all .gitignore files, excluding node_modules (for <leader>fe)
+    local function files_all_except_node_modules()
+      local cmd = "fd --type f --hidden --follow --no-ignore --exclude node_modules"
+      fzf.files({
+        cmd = cmd,
+        prompt = "Files (All) ❯ ",
       })
     end
 
@@ -58,6 +67,7 @@ return {
         builtin = {
           ["<C-f>"] = "toggle-fullscreen",
           ["<C-p>"] = "results-prev",
+          ["<C-g>"] = "toggle-preview-wrap",
         },
         fzf = {
           ["ctrl-u"] = "preview-page-up",
@@ -69,6 +79,7 @@ return {
 
     -- Keymaps
     vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find Files" })
+    vim.keymap.set("n", "<leader>fe", files_all_except_node_modules, { desc = "Find Files (all except node_modules)" })
     vim.keymap.set("n", "<leader>gg", fzf.live_grep, { desc = "Live Grep (Fuzzy)" })
     vim.keymap.set("n", "<leader>ge", function() live_grep_exact({ exact = true }) end, { desc = "Live Grep (Exact)" })
     vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find Buffers" })
