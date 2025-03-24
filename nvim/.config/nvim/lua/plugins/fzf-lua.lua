@@ -26,6 +26,14 @@ return {
       })
     end
 
+    -- Custom buffer line search with exact match (for <leader>//
+    local function blines_exact()
+      fzf.blines({
+        fzf_opts = { ["--exact"] = "" }, -- Enforce exact matching
+        prompt = "Exact Buffer ❯ ",
+      })
+    end
+
     fzf.setup({
       winopts = {
         height = 0.85,
@@ -85,6 +93,7 @@ return {
     vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find Buffers" })
     vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "Find Help" })
     vim.keymap.set("n", "<leader>/", fzf.blines, { desc = "Search current buffer lines" })
+    vim.keymap.set("n", "<leader>//", blines_exact, { desc = "Search current buffer lines (exact)" })
     vim.keymap.set("n", "<leader>fo", fzf.oldfiles, { desc = "Find Recently Opened Files" })
     vim.keymap.set("n", "<leader>gs", fzf.git_status, { desc = "Git Status Files" })
   end,
