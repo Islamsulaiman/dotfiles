@@ -97,3 +97,8 @@ vim.keymap.set('n', '<C-M-l>', ':BufferLineMoveNext<CR>', { desc = 'Move buffer 
 vim.keymap.set('n', '<C-M-h>', ':BufferLineMovePrev<CR>', { desc = 'Move buffer to the previous position' })
 vim.keymap.set('n', '<C-M-l>', ':BufferLineMoveNext<CR>', { desc = 'Move buffer to the next position' })
 
+vim.keymap.set("n", "<leader>rn", function()
+  local word = vim.fn.expand("<cword>")
+  local cmd = ":%s/" .. vim.fn.escape(word, "/") .. "//gc<left><left><left>"
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(cmd, true, false, true), 'n', false)
+end, { desc = "Replace in Buffer (confirm)" })
