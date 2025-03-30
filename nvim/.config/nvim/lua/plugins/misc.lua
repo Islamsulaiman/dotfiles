@@ -68,5 +68,11 @@ return {
   },
   {
     "tpope/vim-surround" -- to change wrapper characters
-  }
+  },
+  {
+-- Hihglight colors
+    "echasnovski/mini.hipatterns",
+    event = "BufReadPre",
+    opts = {},
+  },
 }
