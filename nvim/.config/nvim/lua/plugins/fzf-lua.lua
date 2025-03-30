@@ -190,5 +190,5 @@ return {
     -- Git Related Keymaps
     map("n", "<leader>gs", fzf.git_status, { desc = "Git Status Files" })
 
-  end, -- End of config function
-} -- End of plugin specification
+  end,
+}
