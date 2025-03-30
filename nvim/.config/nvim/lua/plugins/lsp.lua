@@ -13,13 +13,8 @@ return {
 
     -- Allows extra capabilities provided by nvim-cmp
     'hrsh7th/cmp-nvim-lsp',
-    -- Assuming fzf-lua is loaded elsewhere, no need to add it here unless you want to
-    -- { 'ibhagwan/fzf-lua' },
   },
   config = function()
-    -- Brief aside: **What is LSP?**
-    -- (Your existing comment block remains unchanged)
-
     -- This function gets run when an LSP attaches to a particular buffer.
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
