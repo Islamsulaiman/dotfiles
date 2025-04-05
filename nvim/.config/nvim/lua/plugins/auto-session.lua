@@ -35,6 +35,16 @@ return {
       end,
     },
 
+    -- Handle restore errors with detailed logging
+    restore_error_handler = function(err)
+      if string.match(err, "Vim(fold):E16: Invalid range") then
+        vim.notify("Ignoring fold error: " .. err, vim.log.levels.WARN)
+        return true -- Continue restoring
+      end
+      vim.notify("Session restore error: " .. err, vim.log.levels.ERROR)
+      return false -- Disable auto-save for other errors
+    end,
+
     session_lens = {
       load_on_setup = true,
       theme_conf = {},
@@ -49,5 +59,5 @@ return {
         control_filename = "session_control.json",
       },
     },
-  }
+  },
 }
