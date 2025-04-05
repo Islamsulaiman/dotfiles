@@ -32,7 +32,6 @@ require('lazy').setup {
   require 'plugins.floating_terminal',
   require 'plugins.todo',
   require 'plugins.vim-tmux-navigator',
-  require 'plugins.vim-test',
   require 'plugins.auto-save',
   require 'plugins.auto-session',
   require 'plugins.nvim-ufo',
