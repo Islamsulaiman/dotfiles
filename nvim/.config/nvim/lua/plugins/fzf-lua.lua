@@ -205,7 +205,6 @@ return {
 
     map("n", "<leader>gg", function() grep_prompt_wrapper(gg_base_config) end, { desc = "Live Grep (Fuzzy, Prompt Excl?)" })
     map("n", "<leader>ge", function() grep_prompt_wrapper(ge_base_config) end, { desc = "Live Grep (Exact, Prompt Excl?)" })
-    map("n", "<leader>gW", function() grep_word_under_cursor(gg_base_config) end, { desc = "Live [G]rep for [W]ord under cursor (Fuzzy)" })
     map("n", "<leader>gw", function() grep_word_under_cursor(ge_base_config) end, { desc = "Live [G]rep for [W]ord under cursor (Exact)" })
 
     map("n", "<leader>fh", fzf.help_tags, { desc = "Find Help Tags" })
