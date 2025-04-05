@@ -36,6 +36,7 @@ require('lazy').setup {
   require 'plugins.auto-session',
   require 'plugins.nvim-ufo',
   require 'plugins.fzf-lua',
+  require 'plugins.avante',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
