@@ -9,7 +9,7 @@ return {
       provider = "gemini", -- Set Gemini as the AI provider
       gemini = {
         endpoint = "https://generativelanguage.googleapis.com/v1beta/models", -- Gemini API endpoint
-        model = "gemini-1.5-flash", -- Specify the Gemini model (adjust based on available models)
+        model = "gemini-2.5-pro-exp-03-25", -- Specify the Gemini model (adjust based on available models)
         api_key_name = "GEMINI_API_KEY", -- Environment variable for the API key
         timeout = 30000, -- Timeout in milliseconds
         temperature = 0, -- Controls randomness (0 = deterministic)
