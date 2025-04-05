@@ -92,15 +92,49 @@ return {
             vim.notify("No word under cursor", vim.log.levels.WARN)
             return
         end
-        -- Use the passed base config
         local base_config = vim.deepcopy(base_grep_config_arg or {})
-        base_config.search = word -- Pre-fill fzf prompt with the word
-        base_config.prompt = "Grep Word '" .. word .. "' ❯ " -- Customize prompt
-        -- Modify prompt slightly for exact search case
+        base_config.search = word
+        base_config.prompt = "Grep Word '" .. word .. "' ❯ "
         if base_config.fzf_opts and base_config.fzf_opts["--exact"] then
            base_config.prompt = "Grep Word Exact '" .. word .. "' ❯ "
         end
         require("fzf-lua").live_grep(base_config)
+    end
+
+    -- Find files matching specific extensions provided by the user
+    local function find_by_filetype_prompt()
+        vim.ui.input({ prompt = "Search file extensions (comma-separated): " }, function(input)
+            if input == nil or vim.trim(input) == "" then
+                vim.notify("No extensions provided.", vim.log.levels.WARN)
+                return
+            end
+
+            local extensions_str = ""
+            local clean_ext_list = {}
+            local extensions = vim.split(input, ",")
+            for _, ext in ipairs(extensions) do
+                local trimmed_ext = vim.trim(ext):gsub("^%s*%.", "")
+                if trimmed_ext ~= "" then
+                    extensions_str = extensions_str .. " -e " .. vim.fn.shellescape(trimmed_ext)
+                    table.insert(clean_ext_list, trimmed_ext)
+                end
+            end
+
+            if extensions_str == "" then
+                vim.notify("No valid extensions provided.", vim.log.levels.WARN)
+                return
+            end
+
+            -- *** MODIFIED HERE: Use literal string to avoid scope issue ***
+            local fd_base_opts = "--type f --hidden --follow --exclude .git --exclude node_modules"
+            -- Construct command with base options, extension filters, and search from CWD (.)
+            local cmd = "fd " .. fd_base_opts .. extensions_str .. " ."
+
+            require("fzf-lua").files({
+                cmd = cmd, -- Use the custom command
+                prompt = "Files by Ext (" .. table.concat(clean_ext_list, ",") .. ") ❯ " -- Show searched extensions
+            })
+        end)
     end
 
     ----------------------------------------------------------------------
@@ -165,13 +199,14 @@ return {
 
     map("n", "<leader>ff", function() files_prompt_wrapper(ff_base_config) end, { desc = "Find Files (Default, Prompt Excl?)" })
     map("n", "<leader>fe", function() files_prompt_wrapper(fe_base_config) end, { desc = "Find Files All (Prompt Excl?)" })
+    map("n", "<leader>ft", find_by_filetype_prompt, { desc = "[F]ind Files by File[T]ype" }) -- Maps to new function
     map("n", "<leader>fb", fzf.buffers, { desc = "Find Buffers" })
     map("n", "<leader>fo", fzf.oldfiles, { desc = "Find Recently Opened Files (Oldfiles)" })
 
     map("n", "<leader>gg", function() grep_prompt_wrapper(gg_base_config) end, { desc = "Live Grep (Fuzzy, Prompt Excl?)" })
     map("n", "<leader>ge", function() grep_prompt_wrapper(ge_base_config) end, { desc = "Live Grep (Exact, Prompt Excl?)" })
-    map("n", "<leader>gw", function() grep_word_under_cursor(ge_base_config) end, { desc = "Live [G]rep for [W]ord under cursor (Exact)" }) -- NEW KEYMAP
     map("n", "<leader>gW", function() grep_word_under_cursor(gg_base_config) end, { desc = "Live [G]rep for [W]ord under cursor (Fuzzy)" })
+    map("n", "<leader>gw", function() grep_word_under_cursor(ge_base_config) end, { desc = "Live [G]rep for [W]ord under cursor (Exact)" })
 
     map("n", "<leader>fh", fzf.help_tags, { desc = "Find Help Tags" })
     map("n", "<leader>/", fzf.blines, { desc = "Search Current Buffer Lines" })
