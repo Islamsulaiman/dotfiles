@@ -37,6 +37,7 @@ require('lazy').setup {
   require 'plugins.nvim-ufo',
   require 'plugins.fzf-lua',
   require 'plugins.avante',
+  require 'plugins.markdown-preview',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
