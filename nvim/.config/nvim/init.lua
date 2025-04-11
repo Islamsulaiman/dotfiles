@@ -39,6 +39,7 @@ require('lazy').setup {
   require 'plugins.avante',
   require 'plugins.markdown-preview',
   require 'plugins.undotree',
+  require 'plugins.diffview',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
