@@ -38,6 +38,7 @@ require('lazy').setup {
   require 'plugins.fzf-lua',
   require 'plugins.avante',
   require 'plugins.markdown-preview',
+  require 'plugins.undotree',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
