@@ -40,6 +40,7 @@ require('lazy').setup {
   require 'plugins.markdown-preview',
   require 'plugins.undotree',
   require 'plugins.diffview',
+  require 'plugins.bigfile',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
