@@ -2,6 +2,7 @@
 
 return {
   "ibhagwan/fzf-lua",
+  commit = "98fb51f2820ead2f8e3c37a7071d7a113b07e2c1",
   -- Load very lazily
   event = "VeryLazy",
   -- Ensure web devicons are loaded for nice icons
