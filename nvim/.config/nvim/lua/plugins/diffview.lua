@@ -5,6 +5,15 @@ return {
   },
   event = "VeryLazy",
   config = function()
+    local function set_diff_highlights()
+      vim.api.nvim_set_hl(0, "DiffAdd", { bg = "#1e601c", fg = "#ffffff" })
+      vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#601e1e", fg = "#ffffff" })
+      vim.api.nvim_set_hl(0, "DiffChange", { bg = "none", fg = "none" })
+      vim.api.nvim_set_hl(0, "DiffText", { bg = "#1e3560", fg = "#ffffff" })
+      vim.api.nvim_set_hl(0, "DiffviewDiffAddAsDelete", { bg = "#601e1e", fg = "#ffffff" })
+      vim.api.nvim_set_hl(0, "DiffviewDiffDelete", { fg = "#555555" })
+    end
+
     require("diffview").setup({
       enhanced_diff_hl = true,
       diff_algorithm = "patience",
@@ -28,6 +37,16 @@ return {
           position = "left",
           width = 35,
         },
+      },
+      hooks = {
+        diff_buf_read = function()
+          vim.opt_local.wrap = false
+          vim.opt_local.list = false
+          vim.opt_local.number = false
+        end,
+        view_opened = function()
+          set_diff_highlights()
+        end,
       },
     })
   end,
