@@ -1,6 +1,7 @@
 -- This package is for enable folding code blocks efficintaly
 return {
   "kevinhwang91/nvim-ufo",
+  commit = "a026364df62e88037b26d37c9f14c17c006fd577",
   dependencies = {
     "kevinhwang91/promise-async"
   },

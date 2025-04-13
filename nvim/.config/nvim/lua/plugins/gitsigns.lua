@@ -1,6 +1,7 @@
 -- Adds git related signs to the gutter, as well as utilities for managing changes
 return {
   'lewis6991/gitsigns.nvim',
+  commit = "fcfa7a989cd6fed10abf02d9880dc76d7a38167d",
   config = function()
     require('gitsigns').setup {
       current_line_blame = true, -- Toggle with <leader>gb

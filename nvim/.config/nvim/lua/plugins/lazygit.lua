@@ -1,5 +1,6 @@
 return {
- "kdheepak/lazygit.nvim",
+  "kdheepak/lazygit.nvim",
+  commit = "b9eae3badab982e71abab96d3ee1d258f0c07961",
  cmd = {
   "LazyGit",
   "LazyGitConfig",

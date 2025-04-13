@@ -1,5 +1,6 @@
 return {
   'shaunsingh/nord.nvim',
+  commit = "80c1e5321505aeb22b7a9f23eb82f1e193c12470",
   lazy = false,
   priority = 1000,
   config = function()

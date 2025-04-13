@@ -1,6 +1,7 @@
 return {
   {
     'voldikss/vim-floaterm',
+    commit = "4e28c8dd0271e10a5f55142fb6fe9b1599ee6160",
     config = function()
       vim.keymap.set('n', '<Leader>tf', ':FloatermNew<CR>', { desc = 'Open new floating terminal' })
       vim.keymap.set('n', '<Leader>tt', ':FloatermToggle<CR>', { desc = 'Toggle terminal on/off' })
@@ -15,3 +16,4 @@ return {
     end
   }
 }
+

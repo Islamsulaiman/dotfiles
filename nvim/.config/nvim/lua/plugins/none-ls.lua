@@ -1,5 +1,6 @@
 return {
   'nvimtools/none-ls.nvim',
+  commit = "8d99472fcccffd73d7501e54e9018bab5cb0c4ad",
   dependencies = {
     'nvimtools/none-ls-extras.nvim',
     'jayp0521/mason-null-ls.nvim', -- ensure dependencies are installed

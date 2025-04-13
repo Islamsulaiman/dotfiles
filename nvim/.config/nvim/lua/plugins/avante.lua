@@ -1,6 +1,7 @@
 return {
   {
     "yetone/avante.nvim",
+    commit = "e295fe82f0714188615a524604bdaccd266ced3",
     event = "VeryLazy", -- Load the plugin lazily when needed
     lazy = false,       -- Ensure it’s loaded immediately (optional, adjust as needed)
     version = false,    -- Use the latest version instead of pinning

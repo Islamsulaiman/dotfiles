@@ -1,5 +1,6 @@
 return {
   'nvim-lualine/lualine.nvim',
+  commit = "0ea56f91b7f51a37b749c050a5e5dfdd56b302b3",
   config = function()
     local mode = {
       'mode',

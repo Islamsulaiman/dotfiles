@@ -1,6 +1,7 @@
 return {
   {
   "okuuva/auto-save.nvim",
+  commit = "29f793a3a7f98129387590269ffe3ad61ab5e509",
   -- version = '^1.0.0', -- see https://devhints.io/semver, alternatively use '*' to use the latest tagged release
   cmd = "ASToggle", -- optional for lazy loading on command
   event = { "InsertLeave", "TextChanged" }, -- optional for lazy loading on trigger events

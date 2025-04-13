@@ -1,6 +1,7 @@
 return {
   -- Main LSP Configuration
   'neovim/nvim-lspconfig',
+  commit = "4ea9083b6d3dff4ddc6da17c51334c3255b7eba5",
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
     { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants

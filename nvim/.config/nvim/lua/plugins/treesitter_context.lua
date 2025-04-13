@@ -1,6 +1,7 @@
 -- This package is for add the presistant breadcrumb at the top of the 
 return {
   'nvim-treesitter/nvim-treesitter-context',
+  commit = "439789a9a8df9639ecd749bb3286b77117024a6f",
   opts = {
     enable = true,
     -- max_lines = 3, -- Limit the number of context lines shown

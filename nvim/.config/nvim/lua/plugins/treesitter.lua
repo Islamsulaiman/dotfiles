@@ -1,5 +1,6 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
+  commit = "0e21ee8df6235511c02bab4a5b391d18e165a58d",
   build = ':TSUpdate',
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`

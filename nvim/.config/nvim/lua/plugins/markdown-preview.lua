@@ -1,6 +1,7 @@
 return {
   {
     "iamcco/markdown-preview.nvim",
+    commit = "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" }, -- Load only for markdown files
     build = function() vim.fn["mkdp#util#install"]() end, -- Install dependencies
@@ -16,5 +17,5 @@ return {
         desc = "Open Markdown Preview",
       })
     end,
-  },
+  }
 }

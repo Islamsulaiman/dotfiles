@@ -1,5 +1,6 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
+  commit = "9b5d67119c46e3262ffe1508fe6d8540b79ad75d",
   branch = 'v3.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
