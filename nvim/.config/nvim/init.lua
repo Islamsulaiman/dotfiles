@@ -41,7 +41,7 @@ require('lazy').setup {
   require 'plugins.undotree',
   require 'plugins.diffview',
   require 'plugins.bigfile',
-  require 'plugins.treesitter_context',
+  -- require 'plugins.treesitter_context',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
