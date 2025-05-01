@@ -17,16 +17,38 @@ return {
       },
       behaviour = { auto_suggestions = false },
       selector = { provider = "fzf_lua" },
+      -- Add web search configuration to ask for confirmation
+      web_search = {
+        confirm_before_search = true,  -- Ask for confirmation before searching
+        max_searches_per_session = 10, -- Optional: Limit number of searches per session
+        tavily = {
+          api_key_name = "TAVILY_API_KEY", -- Specify the environment variable name
+          confirm_each_search = true,      -- Ask confirmation for each search
+        }
+      },
     },
     config = function(_, opts)
       vim.o.termguicolors = true
       vim.o.background = "dark"
-
       -- Workaround for windows nil error
       local avante = require('avante')
       avante.setup(opts)
       if not avante.windows then
         avante.windows = {}
+      end
+
+      -- Override the web search function to add confirmation
+      if avante.web_search then
+        local original_web_search = avante.web_search
+        avante.web_search = function(query, options)
+          options = options or {}
+          local confirm = vim.fn.input("Perform web search for '" .. query .. "'? This will use Tavily API credits. (y/n): ")
+          if confirm:lower() == "y" then
+            original_web_search(query, options)
+          else
+            print("Web search cancelled")
+          end
+        end
       end
 
       require('dressing').setup({
@@ -49,6 +71,18 @@ return {
       -- Keybindings
       vim.keymap.set("n", "<leader>aa", "<cmd>AvanteAsk<CR>", { desc = "Avante: Ask" })
       vim.keymap.set("v", "<leader>ae", "<cmd>AvanteEdit<CR>", { desc = "Avante: Edit" })
+
+      -- Add a new keymap for web search with confirmation
+      vim.keymap.set("n", "<leader>aws", function()
+        local query = vim.fn.input("Web search query: ")
+        if query and query ~= "" then
+          if avante.web_search then
+            avante.web_search(query)
+          else
+            print("Web search functionality not available")
+          end
+        end
+      end, { desc = "Avante: Web Search with confirmation" })
     end,
     dependencies = {
       { "stevearc/dressing.nvim" },
