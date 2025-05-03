@@ -1,6 +1,7 @@
 return {
   {
     "yetone/avante.nvim",
+    commit = "e295fe82f0714188615a524604bdaccd266ced35",
     event = "VeryLazy",
     lazy = false,
     version = false,
