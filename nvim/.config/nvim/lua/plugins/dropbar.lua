@@ -6,15 +6,13 @@ return {
             "nvim-tree/nvim-web-devicons", -- For file/folder icons
         },
         opts = {
-            general = {
+            bar = {
                 enable = function(buf, win)
                     return vim.fn.win_gettype(win) == ""
                         and vim.bo[buf].buftype == ""
                         and vim.api.nvim_buf_get_name(buf) ~= ""
                         and vim.bo[buf].filetype ~= "toggleterm"
                 end,
-            },
-            bar = {
                 sources = function()
                     local sources = require("dropbar.sources")
                     return {
