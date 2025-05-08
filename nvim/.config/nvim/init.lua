@@ -41,6 +41,7 @@ require('lazy').setup {
   require 'plugins.diffview',
   require 'plugins.bigfile',
   require 'plugins.dropbar',
+  require 'plugins.neoscroll',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
