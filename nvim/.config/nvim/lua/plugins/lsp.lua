@@ -36,6 +36,12 @@ return {
         -- Non-fzf-lua LSP keymaps (unchanged)
         map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+        map('<leader>td', function() -- toggle diagnostic on and off
+          local current_config = vim.diagnostic.config()
+          local new_virtual_text = not (current_config.virtual_text and current_config.virtual_text ~= false)
+          vim.diagnostic.config({ virtual_text = new_virtual_text })
+          print("Diagnostic virtual text " .. (new_virtual_text and "enabled" or "disabled"))
+        end, '[T]oggle [D]iagnostic Virtual Text')
 
         -- Highlight references under cursor
         local client = vim.lsp.get_client_by_id(event.data.client_id)
