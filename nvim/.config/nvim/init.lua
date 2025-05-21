@@ -28,7 +28,6 @@ require('lazy').setup {
   require 'plugins.misc',
   require 'plugins.comment',
   require 'plugins.lazygit',
-  require 'plugins.floating_terminal',
   require 'plugins.todo',
   require 'plugins.vim-tmux-navigator',
   require 'plugins.auto-save',
@@ -42,6 +41,7 @@ require('lazy').setup {
   require 'plugins.bigfile',
   require 'plugins.dropbar',
   require 'plugins.neoscroll',
+  require 'plugins.copilot-chat',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
