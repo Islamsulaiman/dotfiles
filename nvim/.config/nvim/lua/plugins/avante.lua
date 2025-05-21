@@ -10,7 +10,7 @@ return {
       provider = "gemini",
       gemini = {
         endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
-        model = "gemini-1.5-pro",
+        model = "gemini-2.5-pro-preview-05-06",
         api_key_name = "GEMINI_API_KEY",
         timeout = 30000,
         temperature = 0,
