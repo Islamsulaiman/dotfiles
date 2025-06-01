@@ -42,6 +42,7 @@ require('lazy').setup {
   require 'plugins.dropbar',
   require 'plugins.neoscroll',
   require 'plugins.copilot-chat',
+  require 'plugins.harpoon',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
