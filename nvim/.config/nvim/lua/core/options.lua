@@ -44,3 +44,13 @@ vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- Separate Vim plugins fro
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions" -- For a better experience with the auto-session plugin
 vim.opt.spelllang='en_us'
 vim.opt.spell=true
+
+-- Fix Ruby dot key indentation issue
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "ruby",
+--   callback = function()
+--     -- Remove the dot from indentkeys to prevent auto-indentation on dot
+--     vim.bo.indentkeys = vim.bo.indentkeys:gsub("%.","")
+--     vim.bo.indentkeys = vim.bo.indentkeys:gsub(",,",",") -- clean up double commas
+--   end,
+-- })
