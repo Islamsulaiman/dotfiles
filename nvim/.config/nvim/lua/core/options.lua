@@ -54,3 +54,4 @@ vim.opt.spell=true
 --     vim.bo.indentkeys = vim.bo.indentkeys:gsub(",,",",") -- clean up double commas
 --   end,
 -- })
+vim.opt.cursorline = true
