@@ -86,6 +86,55 @@ return {
       end)
     end
 
+    local function grep_include_only_wrapper(base_grep_config)
+      vim.ui.input({
+        prompt = "Search in folders containing (comma-sep, optional - Enter for normal grep): ",
+        completion = "dir",
+      }, function(input)
+        if input == nil then return end
+
+        -- If empty input, just do normal grep
+        if input == "" or vim.trim(input) == "" then
+          require("fzf-lua").live_grep(base_grep_config)
+          return
+        end
+
+        local folder_parts = vim.split(input, ",")
+        local clean_parts_list = {}
+
+        for _, part in ipairs(folder_parts) do
+          local trimmed_part = vim.trim(part)
+          if trimmed_part ~= "" then
+            table.insert(clean_parts_list, trimmed_part)
+          end
+        end
+
+        if #clean_parts_list == 0 then
+          -- If no valid parts after cleaning, fall back to normal grep
+          require("fzf-lua").live_grep(base_grep_config)
+          return
+        end
+
+        local final_opts = vim.deepcopy(base_grep_config)
+        final_opts.prompt = "Grep in *" .. table.concat(clean_parts_list, "*,*") .. "* ❯ "
+
+        -- Clear existing exclusions and set up includes only
+        local base_opts = "--column --line-number --no-heading --color=always --smart-case --hidden"
+        local include_globs = ""
+
+        -- Add multiple glob patterns for each folder part with wildcards for partial matching
+        for _, part in ipairs(clean_parts_list) do
+          -- Match folders containing the part anywhere in their name
+          include_globs = include_globs .. " --glob='*" .. part .. "*/**'"
+          include_globs = include_globs .. " --glob='**/*" .. part .. "*/**'"
+        end
+
+        final_opts.rg_opts = base_opts .. include_globs
+
+        require("fzf-lua").live_grep(final_opts)
+      end)
+    end
+
     -- Grep for the word currently under the cursor using passed base config
     local function grep_word_under_cursor(base_grep_config_arg) -- Accept base config as argument
         local word = vim.fn.expand("<cword>")
@@ -204,9 +253,10 @@ return {
     map("n", "<leader>fb", fzf.buffers, { desc = "Find Buffers" })
     map("n", "<leader>fo", fzf.oldfiles, { desc = "Find Recently Opened Files (Oldfiles)" })
 
-    map("n", "<leader>gg", function() grep_prompt_wrapper(gg_base_config) end, { desc = "Live Grep (Fuzzy, Prompt Excl?)" })
+    map("n", "<leader>gk", function() grep_prompt_wrapper(gg_base_config) end, { desc = "Live Grep (Fuzzy, Prompt Excl?)" })
     map("n", "<leader>ge", function() grep_prompt_wrapper(ge_base_config) end, { desc = "Live Grep (Exact, Prompt Excl?)" })
     map("n", "<leader>gw", function() grep_word_under_cursor(ge_base_config) end, { desc = "Live [G]rep for [W]ord under cursor (Exact)" })
+    map("n", "<leader>gg", function() grep_include_only_wrapper(gg_base_config) end, { desc = "Live Grep (Only in folders containing...)" })
 
     map("n", "<leader>fh", fzf.help_tags, { desc = "Find Help Tags" })
     map("n", "<leader>/", fzf.blines, { desc = "Search Current Buffer Lines" })
