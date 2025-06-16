@@ -38,11 +38,11 @@ require('lazy').setup {
   require 'plugins.markdown-preview',
   require 'plugins.undotree',
   require 'plugins.diffview',
-  require 'plugins.bigfile',
   require 'plugins.dropbar',
   require 'plugins.neoscroll',
   require 'plugins.copilot-chat',
   require 'plugins.harpoon',
+  require 'plugins.snacks',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
