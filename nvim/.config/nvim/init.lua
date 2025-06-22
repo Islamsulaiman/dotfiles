@@ -41,7 +41,6 @@ require('lazy').setup {
   require 'plugins.dropbar',
   require 'plugins.neoscroll',
   require 'plugins.copilot-chat',
-  require 'plugins.harpoon',
   require 'plugins.snacks',
 }
 
