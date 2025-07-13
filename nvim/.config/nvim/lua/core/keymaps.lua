@@ -39,6 +39,7 @@ vim.keymap.set('n', '<Right>', ':vertical resize +15<CR>', opts)
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
 vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', opts) -- close buffer
+vim.keymap.set('n', '<leader>xa', ':bufdo bd<CR>', { desc = "close all saved buffers" }) -- close buffer
 vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', { desc = "Open new buffer" })
 
 -- Window management
@@ -48,7 +49,6 @@ vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal wi
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
 
 -- Toggle line wrapping
-vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', opts)
@@ -91,3 +91,5 @@ vim.keymap.set("n", "<leader>rn", function()
 end, { desc = "Replace in Buffer (confirm)" })
 
 vim.o.sessionoptions = "blank,buffers,curdir,help,tabpages,winsize,winpos,terminal,localoptions" -- No saved 1"folds" in sessions
+
+
