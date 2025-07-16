@@ -49,6 +49,7 @@ vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal wi
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
 
 -- Toggle line wrapping
+vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', opts)
