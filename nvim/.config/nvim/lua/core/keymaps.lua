@@ -48,6 +48,27 @@ vim.keymap.set('n', '<leader>bh', '<C-w>s', { desc = 'open horizontal pane' }) -
 vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal width & height
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
 
+-- Synchronized scrolling for vertical splits
+vim.keymap.set('n', '<leader>sv', function()
+  -- Toggle scrollbind for all visible windows
+  local windows = vim.api.nvim_list_wins()
+  local current_win = vim.api.nvim_get_current_win()
+  local scrollbind_enabled = vim.wo[current_win].scrollbind
+  
+  for _, win in ipairs(windows) do
+    if vim.api.nvim_win_is_valid(win) then
+      vim.wo[win].scrollbind = not scrollbind_enabled
+      vim.wo[win].cursorbind = not scrollbind_enabled
+    end
+  end
+  
+  if scrollbind_enabled then
+    print("Synchronized scrolling disabled")
+  else
+    print("Synchronized scrolling enabled")
+  end
+end, { desc = 'Toggle synchronized scrolling across all splits' })
+
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
