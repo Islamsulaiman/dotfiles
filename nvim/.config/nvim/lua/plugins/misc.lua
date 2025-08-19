@@ -24,6 +24,40 @@ return {
   {
     -- Hints keybinds
     'folke/which-key.nvim',
+    event = "VeryLazy",
+    config = function()
+      local which_key = require("which-key")
+      
+      which_key.setup({
+        preset = "modern",
+        delay = function(ctx)
+          return ctx.plugin and 0 or 500  -- PERFORMANCE: Increased delay from 200ms to 500ms
+        end,
+        -- Performance optimizations
+        triggers = {
+          { "<leader>", mode = { "n", "v" } },
+        },
+        sort = { "local", "order", "group", "alphanum", "mod" },
+      })
+      
+      -- Register group names for leader key combinations
+      which_key.add({
+        { "<leader>b", group = "Buffer" },
+        { "<leader>c", group = "Code action, and rename files" },
+        { "<leader>d", group = "Debug/Diagnostics" },
+        { "<leader>f", group = "Find/File" },
+        { "<leader>g", group = "Git" },
+        { "<leader>h", group = "Help/Harpoon" },
+        { "<leader>i", group = "Insert" },
+        { "<leader>l", group = "LSP/Linting" },
+        { "<leader>r", group = "Replace/Refactor" },
+        { "<leader>s", group = "Search/Session" },
+        { "<leader>t", group = "Toggle/Terminal" },
+        { "<leader>u", group = "UI/Utils" },
+        { "<leader>w", group = "Workspace" },
+        { "<leader>x", group = "Close/Delete" },
+      })
+    end,
   },
   {
     -- Autoclose parentheses, brackets, quotes, etc.
