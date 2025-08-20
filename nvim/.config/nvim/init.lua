@@ -34,13 +34,13 @@ require('lazy').setup {
   require 'plugins.auto-session',
   require 'plugins.nvim-ufo',
   require 'plugins.fzf-lua',
-  require 'plugins.avante',
+  -- require 'plugins.avante',
   require 'plugins.markdown-preview',
   require 'plugins.undotree',
   require 'plugins.diffview',
   require 'plugins.dropbar',
   require 'plugins.neoscroll',
-  require 'plugins.copilot-chat',
+  -- require 'plugins.copilot-chat',
   require 'plugins.snacks',
 }
 
