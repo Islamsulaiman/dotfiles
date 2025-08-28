@@ -39,9 +39,7 @@ require('lazy').setup {
   require 'plugins.markdown-preview',
   require 'plugins.undotree',
   require 'plugins.diffview',
-  require 'plugins.dropbar',
   require 'plugins.neoscroll',
-  -- require 'plugins.copilot-chat',
   require 'plugins.snacks',
 }
 

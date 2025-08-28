@@ -591,8 +591,6 @@ require('lazy').setup({
       -- Keymaps
       vim.cmd [[nnoremap \ :Neotree reveal<cr>]]
       vim.keymap.set('n', '<leader>e', ':Neotree toggle position=left<CR>', { noremap = true, silent = true })
-      vim.keymap.set('n', '<leader>fe', ':Neotree toggle position=float<CR>', { noremap = true, silent = true })
-      vim.keymap.set('n', '<leader>ngs', ':Neotree float git_status<CR>', { noremap = true, silent = true })
     end,
   },
 
@@ -1607,7 +1605,6 @@ require('lazy').setup({
     end,
     keys = {
       { "<leader>do", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
-      { "<leader>dh", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview File History" },
       { "<leader>dr", "<cmd>DiffviewRefresh<cr>", desc = "Refresh Diffview" },
     },
   },

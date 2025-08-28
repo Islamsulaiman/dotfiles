@@ -78,31 +78,6 @@ return {
       desc = "Toggle Diffview",
     },
     {
-      "<leader>dh",
-      function()
-        -- Toggle DiffviewFileHistory
-        local is_history_open = false
-        for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
-          local tab_wins = vim.api.nvim_tabpage_list_wins(tabpage)
-          for _, win in ipairs(tab_wins) do
-            local buf = vim.api.nvim_win_get_buf(win)
-            if vim.bo[buf].filetype == "DiffviewFileHistory" then
-              is_history_open = true
-              break
-            end
-          end
-          if is_history_open then break end
-        end
-
-        if is_history_open then
-          vim.cmd("DiffviewClose")
-        else
-          vim.cmd("DiffviewFileHistory")
-        end
-      end,
-      desc = "Toggle file history",
-    },
-    {
       "<leader>dr", "<cmd>DiffviewRefresh<cr>", desc = "Refresh Diffview",
     },
   },

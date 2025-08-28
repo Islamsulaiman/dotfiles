@@ -8,24 +8,21 @@ return {
     opts = {
       bigfile = { enabled = true },
       -- dashboard = { enabled = true },
-      -- explorer = { enabled = true },
       indent = { enabled = true },
       input = { enabled = true },
       notifier = {
         enabled = true,
         timeout = 3000,
       },
-      -- picker = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
-      -- scroll = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = true },
       styles = {
         notification = {
           wo = { wrap = true } -- Wrap notifications
         }
-      }
+      },
     },
     keys = {
       -- Top Pickers & Explorer
@@ -72,11 +69,9 @@ return {
       { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
       { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
       { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
-      { "<leader>sp", function() Snacks.picker.lazy() end, desc = "Search for Plugin Spec" },
       { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
       { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
       { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
-      { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
       -- LSP
       { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
       { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },

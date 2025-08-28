@@ -95,28 +95,6 @@ return {
     event = "BufReadPre",
     opts = {},
   },
-  -- Github copilot integration.
+  -- to enable multi line selections
   {
-    -- run `:Copilot setup` in first setup to authorize with Github
-    'github/copilot.vim',
-    config = function()
-      vim.cmd('Copilot disable')
-      local function toggle_copilot()
-        local status = vim.fn['copilot#Enabled']()
-        if status == 0 then
-          vim.cmd('Copilot enable')
-          print('Copilot enabled')
-        else
-          vim.cmd('Copilot disable')
-          print('Copilot disabled')
-        end
-      end
-
-      vim.api.nvim_create_user_command('ToggleCopilot', function()
-        toggle_copilot()
-      end, {})
-
-      vim.api.nvim_set_keymap('n', 'ct', ':ToggleCopilot<CR>', { noremap = true, silent = true })
-    end
-  }
 }

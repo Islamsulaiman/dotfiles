@@ -25,10 +25,6 @@ vim.keymap.set('n', 'x', '"_x', opts)
 vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
 vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
 
--- Find and center
-vim.keymap.set('n', 'n', 'nzzzv', opts)
-vim.keymap.set('n', 'N', 'Nzzzv', opts)
-
 -- Resize with arrows
 vim.keymap.set('n', '<Up>', ':resize -10<CR>', opts)
 vim.keymap.set('n', '<Down>', ':resize +10<CR>', opts)
@@ -99,10 +95,6 @@ vim.keymap.set('n', '<leader>cp', function()
 end, { desc = 'Copy relative path of the current buffer from project root' })
 
 -- Enable reordring tabs
-vim.keymap.set('n', '<C-M-h>', ':BufferLineMovePrev<CR>', { desc = 'Move buffer to the previous position' })
-vim.keymap.set('n', '<C-M-l>', ':BufferLineMoveNext<CR>', { desc = 'Move buffer to the next position' })
-
--- Reordring opened tabs
 vim.keymap.set('n', '<C-M-h>', ':BufferLineMovePrev<CR>', { desc = 'Move buffer to the previous position' })
 vim.keymap.set('n', '<C-M-l>', ':BufferLineMoveNext<CR>', { desc = 'Move buffer to the next position' })
 
