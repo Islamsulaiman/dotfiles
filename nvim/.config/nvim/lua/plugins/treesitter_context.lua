@@ -1,52 +1,23 @@
 -- This package is for add the presistant breadcrumb at the top of the 
 return {
   'nvim-treesitter/nvim-treesitter-context',
-  commit = "439789a9a8df9639ecd749bb3286b77117024a6f",
-  opts = {
-        enable = true,
-    -- max_lines = 3, -- Limit the number of context lines shown
-    trim_scope = 'outer', -- Always display the outermost scope
-    patterns = {
-      default = {
-        'class',       -- Classes
-        'function',    -- Functions
-        'method',      -- Methods
-        'for',         -- For loops
-        'while',       -- While loops
-        'if',          -- If statements
-        'switch',      -- Switch statements
-        'case',        -- Case statements
-      },
-      lua = {
-        'function',
-        'if_statement',
-        'for_statement',
-      },
-      ruby = {
-        'module',      -- Ruby modules
-        'class',       -- Ruby classes
-        'method',      -- Ruby methods
-        'do_block',    -- Ruby blocks
-        'if',          -- If statements
-        'method_call',        -- for method calls also
-        exclude_patterns = { 'comment' }, -- Exclude comments for Ruby files
-      },
-      rails = {
-        'class',       -- Rails models, controllers, etc.
-        'method',      -- Controller actions, helpers, etc.
-        'do_block',    -- Blocks in Rails code
-        exclude_patterns = { 'comment' }, -- Exclude comments for Ruby files
-      },
-    },
-    exclude_patterns = {
-      'comment',        -- General comment node
-      'line_comment',   -- Specific line comment node
-      'block_comment',  -- Specific block comment node
-      -- multiline_threshold = 1, -- Show context for single-line nodes
-    }, -- Exclude comments globally
-  },
-  config = function(_, opts)
-    require('treesitter-context').setup(opts)
+  dependencies = { "nvim-treesitter" },
+  lazy = false,
+  config = function()
+    require'treesitter-context'.setup{
+      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      max_lines = 4, -- How many lines the window should span. Values <= 0 mean no limit.
+      min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+      line_numbers = true,
+      multiline_threshold = 1, -- Maximum number of lines to show for a single context
+      trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+      -- Separator between context and content. Should be a single character string, like '-'.
+      -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+      separator = '⸺',
+      zindex = 20, -- The Z-index of the context window
+      on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+    }
   end,
 }
 
