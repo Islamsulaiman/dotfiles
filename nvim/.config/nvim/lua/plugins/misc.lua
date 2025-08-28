@@ -97,4 +97,9 @@ return {
   },
   -- to enable multi line selections
   {
+  'mg979/vim-visual-multi',
+  branch = 'master', -- Specify the master branch
+  lazy = false, -- Load the plugin immediately (required for keymaps to work)
+  },
 }
+
