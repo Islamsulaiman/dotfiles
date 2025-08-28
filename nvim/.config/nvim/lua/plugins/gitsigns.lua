@@ -1,7 +1,9 @@
 -- Adds git related signs to the gutter, as well as utilities for managing changes
+-- lua/plugins/gitsigns.lua
 return {
   'lewis6991/gitsigns.nvim',
-  commit = "fcfa7a989cd6fed10abf02d9880dc76d7a38167d",
+  version = "*", -- Use latest stable release
+  event = { "BufReadPre", "BufNewFile" },
   config = function()
     require('gitsigns').setup {
       current_line_blame = true, -- Toggle with <leader>gb

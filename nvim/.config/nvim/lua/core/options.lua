@@ -14,7 +14,7 @@ vim.o.expandtab = true -- Convert tabs to spaces (default: false)
 vim.o.scrolloff = 4 -- Minimal number of screen lines to keep above and below the cursor (default: 0)
 vim.o.sidescrolloff = 8 -- Minimal number of screen columns either side of cursor if wrap is `false` (default: 0)
 vim.o.scrollopt = 'ver,jump' -- Improve scrollbind behavior: vertical only, allow jumps (default: 'ver,hor')
-vim.o.cursorline = false -- Highlight the current line (default: false)
+vim.o.cursorline = true -- Highlight the current line (default: false)
 vim.o.splitbelow = true -- Force all horizontal splits to go below current window (default: false)
 vim.o.splitright = true -- Force all vertical splits to go to the right of current window (default: false)
 vim.o.hlsearch = false -- Set highlight on search (default: true)
@@ -55,4 +55,22 @@ vim.opt.spell=true
 --     vim.bo.indentkeys = vim.bo.indentkeys:gsub(",,",",") -- clean up double commas
 --   end,
 -- })
-vim.opt.cursorline = true
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LazyVimStarted",
+  callback = function()
+    vim.diagnostic.config({
+      underline = {
+        severity = { min = vim.diagnostic.severity.HINT, max = vim.diagnostic.severity.HINT },  -- Only underline HINT severity
+      },
+      virtual_text = true,
+      signs = true,
+      update_in_insert = false,
+      severity_sort = true,
+    })
+    -- Set red squiggly for HINT underlines
+    vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = true, sp = 'red' })
+  end,
+})
+
+
