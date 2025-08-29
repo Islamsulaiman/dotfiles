@@ -31,17 +31,10 @@ return {
         map('gI', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
         map('<leader>D', require('fzf-lua').lsp_typedefs, 'Type [D]efinition')
         map('<leader>ds', require('fzf-lua').lsp_document_symbols, '[D]ocument [S]ymbols')
-        map('<leader>ws', require('fzf-lua').lsp_workspace_symbols, '[W]orkspace [S]ymbols')
 
         -- Non-fzf-lua LSP keymaps (unchanged)
         map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-        map('<leader>td', function() -- toggle diagnostic on and off
-          local current_config = vim.diagnostic.config()
-          local new_virtual_text = not (current_config.virtual_text and current_config.virtual_text ~= false)
-          vim.diagnostic.config({ virtual_text = new_virtual_text })
-          print("Diagnostic virtual text " .. (new_virtual_text and "enabled" or "disabled"))
-        end, '[T]oggle [D]iagnostic Virtual Text')
 
         -- Highlight references under cursor
         local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -66,13 +59,6 @@ return {
               vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
             end,
           })
-        end
-
-        -- Toggle inlay hints
-        if client and client:supports_method("textDocument/inlayHint") then
-          map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-          end, '[T]oggle Inlay [H]ints')
         end
       end,
     })

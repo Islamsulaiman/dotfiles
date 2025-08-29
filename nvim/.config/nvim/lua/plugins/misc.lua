@@ -12,10 +12,6 @@ return {
     -- Powerful Git integration for Vim
     'tpope/vim-fugitive',
     event = "VeryLazy",
-    config = function()
-      -- Keymap to open the remote PR/commit URL for the current line
-      vim.keymap.set("n", "<leader>gn", ":GBrowse<CR>", { desc = "Open line in remote PR" })
-    end,
   },
   {
     -- GitHub integration for vim-fugitive
@@ -42,7 +38,7 @@ return {
       
       -- Register group names for leader key combinations
       which_key.add({
-        { "<leader>b", group = "Buffer" },
+        -- { "<leader>b", group = "Buffer" },
         { "<leader>c", group = "Code action, and rename files" },
         { "<leader>d", group = "Debug/Diagnostics" },
         { "<leader>f", group = "Find/File" },
@@ -50,9 +46,9 @@ return {
         { "<leader>h", group = "Help/Harpoon" },
         { "<leader>i", group = "Insert" },
         { "<leader>l", group = "LSP/Linting" },
-        { "<leader>r", group = "Replace/Refactor" },
+        { "<leader>r", group = "Replace in buffer" },
         { "<leader>s", group = "Search/Session" },
-        { "<leader>t", group = "Toggle/Terminal" },
+        { "<leader>t", group = "Toggle Hints and Diagnostics" },
         { "<leader>u", group = "UI/Utils" },
         { "<leader>w", group = "Workspace" },
         { "<leader>x", group = "Close/Delete" },

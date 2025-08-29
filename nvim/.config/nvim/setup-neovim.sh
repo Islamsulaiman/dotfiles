@@ -134,11 +134,9 @@ vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', { desc = "Open new buffer" }
 -- Window management
 vim.keymap.set('n', '<leader>v', '<C-w>v', opts)
 vim.keymap.set('n', '<leader>bh', '<C-w>s', { desc = 'open horizontal pane' })
-vim.keymap.set('n', '<leader>se', '<C-w>=', opts)
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts)
 
 -- Text manipulation
-vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 vim.keymap.set('v', '<', '<gv', opts)
 vim.keymap.set('v', '>', '>gv', opts)
 vim.keymap.set('v', 'p', '"_dP', opts)
@@ -933,7 +931,6 @@ require('lazy').setup({
           map('gI', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
           map('<leader>D', require('fzf-lua').lsp_typedefs, 'Type [D]efinition')
           map('<leader>ds', require('fzf-lua').lsp_document_symbols, '[D]ocument [S]ymbols')
-          map('<leader>ws', require('fzf-lua').lsp_workspace_symbols, '[W]orkspace [S]ymbols')
 
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -1443,11 +1440,8 @@ require('lazy').setup({
       })
 
       vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find Buffers" })
-      vim.keymap.set("n", "<leader>fo", fzf.oldfiles, { desc = "Find Recently Opened Files" })
       vim.keymap.set("n", "<leader>gg", fzf.live_grep, { desc = "Live Grep" })
       vim.keymap.set("n", "<leader>gw", fzf.grep_cword, { desc = "Grep Word Under Cursor" })
-      vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "Find Help Tags" })
       vim.keymap.set("n", "<leader>/", fzf.blines, { desc = "Search Current Buffer Lines" })
       vim.keymap.set("n", "<leader>gs", fzf.git_status, { desc = "Git Status Files" })
     end,
@@ -1653,9 +1647,6 @@ require('lazy').setup({
   {
     'tpope/vim-fugitive',
     event = "VeryLazy",
-    config = function()
-      vim.keymap.set("n", "<leader>gn", ":GBrowse<CR>", { desc = "Open line in remote PR" })
-    end,
   },
   { 'tpope/vim-rhubarb' },
   { 'folke/which-key.nvim' },
