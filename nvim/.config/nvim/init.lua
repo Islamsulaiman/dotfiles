@@ -42,6 +42,7 @@ require('lazy').setup {
   require 'plugins.diffview',
   require 'plugins.neoscroll',
   require 'plugins.snacks',
+  require 'plugins.flash',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
