@@ -39,10 +39,10 @@ vim.keymap.set('n', '<leader>xa', ':bufdo bd<CR>', { desc = "close all saved buf
 vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', { desc = "Open new buffer" })
 
 -- Window management
-vim.keymap.set('n', '<leader>v', '<C-w>v', opts) -- split window vertically
-vim.keymap.set('n', '<leader>bh', '<C-w>s', { desc = 'open horizontal pane' }) -- split window horizontally
-vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal width & height
-vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
+vim.keymap.set('n', '<leader>v', '<C-w>v', { desc = "Vertical split view" } )
+vim.keymap.set('n', '<leader>bh', '<C-w>s', { desc = 'open horizontal pane' })
+vim.keymap.set('n', '<leader>se', '<C-w>=', { desc = 'make split windows equal width & height' })
+vim.keymap.set('n', '<leader>xs', ':close<CR>', { desc = 'close current split window' })
 
 -- Synchronized scrolling for vertical splits
 vim.keymap.set('n', '<leader>sv', function()
@@ -64,9 +64,6 @@ vim.keymap.set('n', '<leader>sv', function()
     print("Synchronized scrolling enabled")
   end
 end, { desc = 'Toggle synchronized scrolling across all splits' })
-
--- Toggle line wrapping
-vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', opts)
