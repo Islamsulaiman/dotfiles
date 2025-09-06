@@ -50,14 +50,14 @@ vim.keymap.set('n', '<leader>sv', function()
   local windows = vim.api.nvim_list_wins()
   local current_win = vim.api.nvim_get_current_win()
   local scrollbind_enabled = vim.wo[current_win].scrollbind
-  
+
   for _, win in ipairs(windows) do
     if vim.api.nvim_win_is_valid(win) then
       vim.wo[win].scrollbind = not scrollbind_enabled
       vim.wo[win].cursorbind = not scrollbind_enabled
     end
   end
-  
+
   if scrollbind_enabled then
     print("Synchronized scrolling disabled")
   else
@@ -108,4 +108,52 @@ vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+
+local function get_pr_for_current_line()
+  local line = vim.fn.line('.')
+  local file = vim.fn.expand('%')
+
+  if file == '' then
+    vim.notify("No file open")
+    return
+  end
+
+  -- Get commit hash for current line
+  local blame_cmd = "git blame -L " .. line .. "," .. line .. " " .. file .. " | awk '{print $1}'"
+  local commit_hash = vim.fn.system(blame_cmd)
+  commit_hash = commit_hash:gsub('%s+', '')
+
+  if commit_hash == "" then
+    vim.notify("No commit found")
+    return
+  end
+
+  -- Find PR with GitHub CLI
+  local pr_cmd = "gh pr list --search " .. commit_hash .. " --state merged --json number,title,url --limit 1"
+  local pr_result = vim.fn.system(pr_cmd)
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify("GitHub CLI error")
+    return
+  end
+
+  local pr_data = vim.fn.json_decode(pr_result)
+  if not pr_data or #pr_data == 0 then
+    vim.notify("No PR found for this line")
+    return
+  end
+
+  -- Open PR in browser
+  local pr = pr_data[1]
+  vim.notify("Opening PR #" .. pr.number)
+
+  if vim.fn.has('mac') == 1 then
+    vim.fn.system("open '" .. pr.url .. "'")
+  else
+    vim.fn.system("xdg-open '" .. pr.url .. "'")
+  end
+end
+
+-- Keybinding
+vim.keymap.set('n', '<leader>gpr', get_pr_for_current_line, { desc = "Open PR for current line" })
 
