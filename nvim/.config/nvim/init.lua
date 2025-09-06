@@ -43,6 +43,7 @@ require('lazy').setup {
   require 'plugins.neoscroll',
   require 'plugins.snacks',
   require 'plugins.flash',
+  require 'plugins.octo',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`

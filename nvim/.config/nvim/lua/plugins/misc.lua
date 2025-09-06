@@ -52,6 +52,10 @@ return {
         { "<leader>u", group = "UI/Utils" },
         { "<leader>w", group = "Workspace" },
         { "<leader>x", group = "Close/Delete" },
+        { "<leader>op", group = "Octo PR" },
+        { "<leader>oi", group = "Octo issue" },
+        { "<leader>or", group = "Octo review/reload" },
+        { "<leader>oc", group = "Octo comment" },
       })
     end,
   },
