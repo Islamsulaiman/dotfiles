@@ -44,6 +44,7 @@ require('lazy').setup {
   require 'plugins.snacks',
   require 'plugins.flash',
   require 'plugins.octo',
+  require 'plugins.gh-dash',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
