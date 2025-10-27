@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 name: "Block Merge on Label"
 
@@ -39,3 +40,36 @@ jobs:
           echo "No 'DO-NOT-MERGE' label found. This PR is clear to merge (pending other checks)."
           exit 0 # This command explicitly passes the job
 
+||||||| parent of 9836049 (faet: block merge when DO-NOT-MERGE label is on)
+=======
+name: "Block Merge on Label"
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+
+jobs:
+  check-for-do-not-merge-label:
+    name: "Check for DO NOT MERGE label"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check if PR has 'DO NOT MERGE' label"
+        if: contains(github.event.pull_request.labels.*.name, 'DO NOT MERGE')
+        
+        run: |
+          echo "::error::This PR is blocked from merging because it has the 'DO NOT MERGE' label."
+          echo "Please remove the label when the external dependency (e.g., backfill) is complete."
+          exit 1
+
+      - name: "No 'DO NOT MERGE' label found"
+        if: "!contains(github.event.pull_request.labels.*.name, 'DO NOT MERGE')"
+        
+        run: |
+          echo "No 'DO NOT MERGE' label found. This PR is clear to merge (pending other checks)."
+          exit 0
+>>>>>>> 9836049 (faet: block merge when DO-NOT-MERGE label is on)
