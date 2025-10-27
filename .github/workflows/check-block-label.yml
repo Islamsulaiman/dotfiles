@@ -1,0 +1,41 @@
+
+name: "Block Merge on Label"
+
+# This action runs on several pull request events
+on:
+  pull_request:
+    types:
+      - opened      # Runs when a PR is opened
+      - reopened    # Runs when a PR is reopened
+      - synchronize # Runs when new code is pushed to the PR
+      - labeled     # Runs when a label is added
+      - unlabeled   # Runs when a label is removed
+
+jobs:
+  # This is the name of the job we will make "required"
+  check-for-do-not-merge-label:
+    name: "Check for DO-NOT-MERGE label"
+    runs-on: ubuntu-latest
+    steps:
+      
+      # Step 1: Check if the label IS present
+      # We use 'contains' to see if the array of label names includes 'DO-NOT-MERGE'
+      - name: "Check if PR has 'DO-NOT-MERGE' label"
+        if: contains(github.event.pull_request.labels.*.name, 'DO-NOT-MERGE')
+        
+        # This part only runs if the 'if' condition was true
+        run: |
+          echo "::error::This PR is blocked from merging because it has the 'DO-NOT-MERGE' label."
+          echo "Please remove the label when the external dependency (e.g., backfill) is complete."
+          exit 1 # This command fails the step, which fails the entire job
+
+      # Step 2: Check if the label IS NOT present
+      # This 'if' is the exact opposite of the one above
+      - name: "No 'DO-NOT-MERGE' label found"
+        if: "!contains(github.event.pull_request.labels.*.name, 'DO-NOT-MERGE')"
+
+        # This part only runs if the 'if' condition was true
+        run: |
+          echo "No 'DO-NOT-MERGE' label found. This PR is clear to merge (pending other checks)."
+          exit 0 # This command explicitly passes the job
+
