@@ -29,8 +29,8 @@ return {
       formatting.stylua,
       formatting.shfmt.with({ args = { '-i', '4' } }),
       formatting.terraform_fmt,
-      diagnostics.rubocop,
-      formatting.rubocop,
+      -- diagnostics.rubocop,
+      -- formatting.rubocop,
     }
 
     nls.setup({
