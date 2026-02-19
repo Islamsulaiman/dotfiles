@@ -48,3 +48,14 @@ local function open_pr_for_current_line()
 end
 
 vim.keymap.set("n", "<leader>gpr", open_pr_for_current_line, { desc = "Open PR for current line" })
+
+vim.keymap.set("n", "<C-q>", "<cmd>qa<cr>", { desc = "Quit all" })
+vim.keymap.set("n", "<C-c>", "gcc", { remap = true, silent = true, desc = "Toggle comment line" })
+vim.keymap.set("x", "<C-c>", "gc", { remap = true, silent = true, desc = "Toggle comment selection" })
+
+-- Buffer navigation and ordering
+-- NOTE: mapping <Tab> in normal mode overrides Vim's default jump-forward (<C-i>) behavior.
+vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })
+vim.keymap.set("n", "<S-h>", "<cmd>BufferLineMovePrev<cr>", { desc = "Move buffer left" })
+vim.keymap.set("n", "<S-l>", "<cmd>BufferLineMoveNext<cr>", { desc = "Move buffer right" })
