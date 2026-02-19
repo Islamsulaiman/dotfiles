@@ -22,12 +22,12 @@ local function should_autosave(bufnr)
   return vim.bo[bufnr].modified
 end
 
-vim.api.nvim_create_autocmd({ "InsertLeave", "BufLeave" }, {
+vim.api.nvim_create_autocmd({ "InsertLeave", "BufLeave", "TextChanged" }, {
   group = autosave_group,
   callback = function(args)
     if should_autosave(args.buf) then
       vim.cmd("silent! write")
     end
   end,
-  desc = "Auto save on mode and buffer changes",
+  desc = "Auto save on mode, buffer, and normal mode edits",
 })
