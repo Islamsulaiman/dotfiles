@@ -7,7 +7,6 @@ sudo apt update || warn "apt update failed"
 APT_PACKAGES=(
     git
     zsh
-    neovim
     tmux
     fzf
     ripgrep
@@ -21,6 +20,24 @@ APT_PACKAGES=(
 
 info "Installing apt packages..."
 sudo apt install -y "${APT_PACKAGES[@]}" || warn "Some apt packages failed to install"
+
+# neovim — apt version is too old for LazyVim, install from GitHub releases
+if ! command -v nvim &>/dev/null; then
+    info "Installing neovim from GitHub releases..."
+    NVIM_VERSION=$(curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" | grep -Po '"tag_name": "\K[^"]*')
+    if [ -n "$NVIM_VERSION" ]; then
+        curl -Lo /tmp/nvim-linux-x86_64.tar.gz "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz" \
+            && sudo rm -rf /opt/nvim-linux-x86_64 \
+            && sudo tar xf /tmp/nvim-linux-x86_64.tar.gz -C /opt \
+            && sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim \
+            && rm /tmp/nvim-linux-x86_64.tar.gz \
+            || warn "neovim install failed"
+    else
+        warn "Could not determine neovim version — skipping"
+    fi
+else
+    info "neovim is already installed ($(nvim --version | head -1))"
+fi
 
 # fd is installed as fdfind on Debian — create a symlink so scripts can use 'fd'
 if command -v fdfind &>/dev/null && ! command -v fd &>/dev/null; then
