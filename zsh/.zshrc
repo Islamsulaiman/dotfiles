@@ -37,6 +37,10 @@ plugins=(
   zsh-vi-mode
 )
 
+# Filter out non-existent dirs from fpath to prevent compinit errors
+# (fixes Docker completion issue on Pop!_OS where vendor-completions may be broken)
+fpath=($fpath(N))
+
 source "$ZSH/oh-my-zsh.sh"
 
 # ==============================================================================

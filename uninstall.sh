@@ -16,8 +16,11 @@ echo "  - asdf (~/.asdf)"
 echo "  - zsh completion cache (~/.zcompdump*)"
 echo "  - Node.js global packages (cspell)"
 echo "  - gh-dash extension"
+if [ "$(uname -s)" = "Linux" ]; then
+echo "  - GitHub-release binaries (neovim, lazygit, lazydocker, fd symlink)"
+fi
 echo ""
-echo "It will NOT remove: system packages, dotfiles repo, git config, SSH keys"
+echo "It will NOT remove: system packages (apt/brew), dotfiles repo, git config, SSH keys"
 echo ""
 printf "Continue? [y/N] "
 read -r answer
@@ -60,6 +63,18 @@ if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1; then
     if gh extension list 2>/dev/null | grep -q "dlvhdr/gh-dash"; then
         info "Removing gh-dash extension..."
         gh extension remove dlvhdr/gh-dash 2>/dev/null || true
+    fi
+fi
+
+# Remove GitHub-release binaries on Linux (macOS uses brew, which is kept)
+if [ "$(uname -s)" = "Linux" ]; then
+    info "Removing GitHub-release binaries..."
+    sudo rm -f /usr/local/bin/nvim
+    sudo rm -rf /opt/nvim-linux-x86_64
+    sudo rm -f /usr/local/bin/lazygit
+    sudo rm -f /usr/local/bin/lazydocker
+    if [ -L /usr/local/bin/fd ]; then
+        sudo rm -f /usr/local/bin/fd
     fi
 fi
 

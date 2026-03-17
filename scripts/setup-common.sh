@@ -75,24 +75,25 @@ if command -v brew &>/dev/null && brew list asdf &>/dev/null; then
     info "asdf is already installed via Homebrew"
     # shellcheck source=/dev/null
     . "$(brew --prefix asdf)/libexec/asdf.sh" 2>/dev/null
-    ASDF_AVAILABLE=true
 elif [ -d "$HOME/.asdf" ]; then
     info "asdf is already installed"
     export ASDF_DIR="$HOME/.asdf"
     # shellcheck source=/dev/null
     . "$ASDF_DIR/asdf.sh" 2>/dev/null
-    ASDF_AVAILABLE=true
 else
     info "Installing asdf..."
     if git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.15.0; then
         export ASDF_DIR="$HOME/.asdf"
         # shellcheck source=/dev/null
         . "$ASDF_DIR/asdf.sh" 2>/dev/null
-        ASDF_AVAILABLE=true
-        ok "asdf installed"
     else
         warn "asdf install failed (git clone)"
     fi
+fi
+
+if $ASDF_AVAILABLE && ! command -v asdf &>/dev/null; then
+    warn "asdf directory exists but 'asdf' command not available — sourcing asdf.sh may have failed"
+    ASDF_AVAILABLE=false
 fi
 
 if $ASDF_AVAILABLE && ! command -v asdf &>/dev/null; then
