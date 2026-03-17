@@ -35,12 +35,11 @@ source $ZSH/oh-my-zsh.sh
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
-alias open_gui="nautilus . &>/dev/null &"
-
-
-# keychain for git ssh
-eval "$(keychain --quiet --eval --agents ssh github_personal)"
-eval "$(keychain --quiet --eval --agents ssh personal_gitlab)"
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias open_gui="open ."
+else
+    alias open_gui="nautilus . &>/dev/null &"
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 . "$HOME/.asdf/asdf.sh"

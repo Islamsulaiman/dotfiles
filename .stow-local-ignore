@@ -1,0 +1,12 @@
+\.git
+\.github
+\.gitignore
+\.stow-local-ignore
+\.ruby-lsp
+\.tool-versions
+README\.md
+LICENSE
+cspell\.json
+scripts
+install\.sh
+linux-debian-packages-installation\.sh
