@@ -109,6 +109,12 @@ vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
+-- Move/indent lines in visual mode (Mac-friendly with leader key)
+vim.keymap.set("v", "<leader>j", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+vim.keymap.set("v", "<leader>k", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+vim.keymap.set("v", "<leader>h", "<gv", { desc = "Indent selection left" })
+vim.keymap.set("v", "<leader>l", ">gv", { desc = "Indent selection right" })
+
 local function get_pr_for_current_line()
   local line = vim.fn.line('.')
   local file = vim.fn.expand('%')

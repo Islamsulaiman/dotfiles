@@ -45,6 +45,15 @@ return {
       enable_diagnostics = true,
       open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' },
       sort_case_insensitive = false,
+      -- Performance: Use async git status to avoid blocking on large directories
+      async_directory_scan = "always",
+      -- Performance: Limit git status to avoid slowdowns in large repos
+      git_status_async = true,
+      git_status_async_options = {
+        batch_size = 1000,  -- Process git status in batches
+        batch_delay = 10,   -- Delay between batches (ms)
+        max_lines = 10000,  -- Max lines to process
+      },
 
       event_handlers = {
         {
@@ -98,10 +107,12 @@ return {
             conflict = '',
           },
         },
-        file_size = { enabled = true, required_width = 64 },
-        type = { enabled = true, required_width = 122 },
-        last_modified = { enabled = true, required_width = 88 },
-        created = { enabled = true, required_width = 110 },
+        -- Performance: Disable file metadata to speed up large directories like db/migrate
+        -- These fetch stat() for every file which is slow with 4000+ files
+        file_size = { enabled = false },
+        type = { enabled = false },
+        last_modified = { enabled = false },
+        created = { enabled = false },
         symlink_target = { enabled = false },
       },
 
@@ -156,6 +167,8 @@ return {
         group_empty_dirs = false,
         hijack_netrw_behavior = 'disabled',
         use_libuv_file_watcher = true,
+        -- Performance: Use async scanning for large directories
+        scan_mode = "deep",  -- "shallow" for even faster but less accurate
         window = {
           mappings = {
             ['<bs>'] = 'navigate_up',
