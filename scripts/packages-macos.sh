@@ -3,8 +3,13 @@
 
 if ! command -v brew &>/dev/null; then
     info "Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    if /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        ok "Homebrew installed"
+    else
+        warn "Homebrew install failed — cannot install packages"
+        return 1 2>/dev/null || exit 1
+    fi
 fi
 
 if ! xcode-select -p &>/dev/null; then
@@ -34,6 +39,10 @@ for pkg in "${PACKAGES[@]}"; do
     if brew list "$pkg" &>/dev/null; then
         info "$pkg is already installed"
     else
-        brew install "$pkg"
+        if brew install "$pkg"; then
+            ok "$pkg installed"
+        else
+            warn "brew install $pkg failed"
+        fi
     fi
 done
