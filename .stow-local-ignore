@@ -9,4 +9,5 @@ LICENSE
 cspell\.json
 scripts
 install\.sh
+uninstall\.sh
 linux-debian-packages-installation\.sh

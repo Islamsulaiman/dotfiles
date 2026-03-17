@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 SCRIPTS_DIR="$DOTFILES_DIR/scripts"
 
 info()  { printf "\033[1;34m[info]\033[0m  %s\n" "$1"; }
 warn()  { printf "\033[1;33m[warn]\033[0m  %s\n" "$1"; }
-error() { printf "\033[1;31m[error]\033[0m %s\n" "$1"; exit 1; }
+error() { printf "\033[1;31m[error]\033[0m %s\n" "$1"; }
+
+run_step() {
+    local step_name="$1"
+    shift
+    info "--- $step_name ---"
+    if "$@"; then
+        info "$step_name completed"
+    else
+        warn "$step_name FAILED (exit code $?) — continuing with remaining steps"
+    fi
+}
 
 detect_os() {
     case "$(uname -s)" in
@@ -16,18 +26,14 @@ detect_os() {
                 echo "debian"
             else
                 error "Unsupported Linux distribution. Only Debian-based systems are supported."
+                exit 1
             fi
             ;;
-        *) error "Unsupported operating system: $(uname -s)" ;;
+        *)
+            error "Unsupported operating system: $(uname -s)"
+            exit 1
+            ;;
     esac
-}
-
-ask_yes_no() {
-    local prompt="$1"
-    local answer
-    printf "%s [y/N] " "$prompt"
-    read -r answer
-    [[ "$answer" =~ ^[Yy]$ ]]
 }
 
 OS="$(detect_os)"
@@ -37,14 +43,9 @@ info "Installing system packages..."
 source "$SCRIPTS_DIR/packages-${OS}.sh"
 
 info "Setting up frameworks and tools..."
-INSTALL_RUBY=false
-if ask_yes_no "Install Ruby tooling (asdf ruby plugin + ruby-lsp)?"; then
-    INSTALL_RUBY=true
-fi
-
 source "$SCRIPTS_DIR/setup-common.sh"
 
 info "Done! A few manual steps remain:"
-echo "  1. Open a new terminal (or run 'exec zsh') to load the updated shell config"
+echo "  1. Log out and back in (or run 'exec zsh') to load the updated shell config"
 echo "  2. Open tmux and press prefix+I (Ctrl-b then I) to install tmux plugins"
 echo "  3. Open nvim — lazy.nvim will auto-install all plugins on first launch"
