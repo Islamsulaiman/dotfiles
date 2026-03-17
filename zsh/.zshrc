@@ -7,15 +7,21 @@ export CODEBASE="$HOME/code"
 export DISABLE_SPRING=1
 
 # ==============================================================================
-# 2. PATH CONFIGURATION
+# 2. PATH & ASDF CONFIGURATION
 # ==============================================================================
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.console-ninja/.bin:$PATH"
-export PATH="$HOME/.asdf/shims:$PATH"
 
 if [[ "$(uname)" == "Darwin" ]]; then
     export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 fi
+
+# asdf: brew install sources it automatically; git clone needs manual sourcing
+if [[ -f "$HOME/.asdf/asdf.sh" ]]; then
+    . "$HOME/.asdf/asdf.sh"
+    . "$HOME/.asdf/completions/asdf.bash" 2>/dev/null
+fi
+export PATH="$HOME/.asdf/shims:$PATH"
 
 # ==============================================================================
 # 3. OH MY ZSH CONFIGURATION
