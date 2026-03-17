@@ -45,7 +45,6 @@ fi
 source "$SCRIPTS_DIR/setup-common.sh"
 
 info "Done! A few manual steps remain:"
-echo "  1. Open a new terminal to load the updated shell config"
-echo "  2. Run 'p10k configure' to set up your Powerlevel10k prompt"
-echo "  3. Open tmux and press prefix+I (Ctrl-b then I) to install tmux plugins"
-echo "  4. Open nvim — lazy.nvim will auto-install all plugins on first launch"
+echo "  1. Open a new terminal (or run 'exec zsh') to load the updated shell config"
+echo "  2. Open tmux and press prefix+I (Ctrl-b then I) to install tmux plugins"
+echo "  3. Open nvim — lazy.nvim will auto-install all plugins on first launch"

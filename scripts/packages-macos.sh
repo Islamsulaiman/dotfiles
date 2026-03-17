@@ -22,9 +22,11 @@ PACKAGES=(
     ripgrep
     fd
     lazygit
+    lazydocker
     gh
     stow
     curl
+    asdf
 )
 
 info "Installing Homebrew packages..."

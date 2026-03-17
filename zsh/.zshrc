@@ -1,46 +1,62 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# ==============================================================================
+# 1. ENVIRONMENT VARIABLES
+# ==============================================================================
+export EDITOR="nvim"
+export VISUAL="nvim"
+export CODEBASE="$HOME/code"
+export DISABLE_SPRING=1
+
+# ==============================================================================
+# 2. PATH CONFIGURATION
+# ==============================================================================
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.console-ninja/.bin:$PATH"
+export PATH="$HOME/.asdf/shims:$PATH"
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 fi
 
-# typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
-
-# To add all path vars in bashrc and just source it in the zshrc without adding it in all environment
-# source $HOME/.bashrc
-
-# Path to your Oh My Zsh installation.
+# ==============================================================================
+# 3. OH MY ZSH CONFIGURATION
+# ==============================================================================
 export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
+plugins=(
+  git
+  z
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  zsh-vi-mode
+)
 
-# plugins=(git zsh-z aliases history sudo zsh-syntax-highlighting zsh-autosuggestions)
-plugins=(git z zsh-syntax-highlighting)
+source "$ZSH/oh-my-zsh.sh"
 
+# ==============================================================================
+# 4. CUSTOM BINDINGS & COMPLETIONS
+# ==============================================================================
 bindkey '^H' backward-kill-word
+bindkey '\033\x7f' backward-kill-word
 
-source $ZSH/oh-my-zsh.sh
+[[ -f "$HOME/.pybritive-complete.zsh" ]] && source "$HOME/.pybritive-complete.zsh"
 
-# Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
- else
-   export EDITOR='nvim'
- fi
-
-
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# costum commands
-export VISUAL=nvim
-export EDITOR="$VISUAL"
-
+# ==============================================================================
+# 5. ALIASES
+# ==============================================================================
 if [[ "$(uname)" == "Darwin" ]]; then
     alias open_gui="open ."
 else
     alias open_gui="nautilus . &>/dev/null &"
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
+# ==============================================================================
+# 6. SSH / KEYCHAIN
+# ==============================================================================
+if [[ "$(uname)" == "Darwin" ]]; then
+    ssh-add --apple-use-keychain ~/.ssh/github 2>/dev/null
+else
+    if command -v keychain &>/dev/null; then
+        eval "$(keychain --quiet --eval --agents ssh github 2>/dev/null)"
+    fi
+fi

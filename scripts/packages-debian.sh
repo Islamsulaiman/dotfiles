@@ -16,6 +16,7 @@ APT_PACKAGES=(
     curl
     xclip
     build-essential
+    keychain
 )
 
 info "Installing apt packages..."
@@ -36,6 +37,17 @@ if ! command -v lazygit &>/dev/null; then
     rm /tmp/lazygit.tar.gz
 else
     info "lazygit is already installed"
+fi
+
+# lazydocker is not in apt repos — install from GitHub releases
+if ! command -v lazydocker &>/dev/null; then
+    info "Installing lazydocker from GitHub releases..."
+    LAZYDOCKER_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo /tmp/lazydocker.tar.gz "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_${LAZYDOCKER_VERSION}_Linux_x86_64.tar.gz"
+    sudo tar xf /tmp/lazydocker.tar.gz -C /usr/local/bin lazydocker
+    rm /tmp/lazydocker.tar.gz
+else
+    info "lazydocker is already installed"
 fi
 
 # gh (GitHub CLI) — install from GitHub's official apt repo

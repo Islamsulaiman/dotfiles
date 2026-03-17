@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 # Common setup: frameworks, stow, and post-install steps (runs on all platforms)
 
+# Set zsh as default shell
+if [ "$SHELL" != "$(which zsh)" ]; then
+    info "Setting zsh as default shell..."
+    chsh -s "$(which zsh)"
+else
+    info "zsh is already the default shell"
+fi
+
 # Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     info "Installing Oh My Zsh..."
@@ -11,12 +19,12 @@ fi
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
-# Powerlevel10k
-if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
-    info "Installing Powerlevel10k..."
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+# zsh-autosuggestions
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    info "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 else
-    info "Powerlevel10k is already installed"
+    info "zsh-autosuggestions is already installed"
 fi
 
 # zsh-syntax-highlighting
@@ -25,6 +33,14 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 else
     info "zsh-syntax-highlighting is already installed"
+fi
+
+# zsh-vi-mode
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-vi-mode" ]; then
+    info "Installing zsh-vi-mode..."
+    git clone https://github.com/jeffreytse/zsh-vi-mode.git "$ZSH_CUSTOM/plugins/zsh-vi-mode"
+else
+    info "zsh-vi-mode is already installed"
 fi
 
 # TPM (Tmux Plugin Manager)
@@ -36,27 +52,37 @@ else
 fi
 
 # asdf version manager
-if [ ! -d "$HOME/.asdf" ]; then
-    info "Installing asdf..."
-    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.14.0
-else
+if command -v brew &>/dev/null && brew list asdf &>/dev/null; then
+    info "asdf is already installed via Homebrew"
+    # shellcheck source=/dev/null
+    . "$(brew --prefix asdf)/libexec/asdf.sh"
+elif [ -d "$HOME/.asdf" ]; then
     info "asdf is already installed"
+    export ASDF_DIR="$HOME/.asdf"
+    # shellcheck source=/dev/null
+    . "$ASDF_DIR/asdf.sh"
+else
+    info "Installing asdf..."
+    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.15.0
+    export ASDF_DIR="$HOME/.asdf"
+    # shellcheck source=/dev/null
+    . "$ASDF_DIR/asdf.sh"
 fi
 
-# Source asdf so we can use it in subsequent steps
-export ASDF_DIR="$HOME/.asdf"
-# shellcheck source=/dev/null
-. "$ASDF_DIR/asdf.sh"
-
 # Stow dotfiles
+# --adopt: if a target file already exists as a real file (not a symlink),
+# stow moves it into the package dir and creates the symlink. We then
+# git restore to get our dotfiles version back (not the adopted file).
 info "Stowing dotfile packages..."
 cd "$DOTFILES_DIR"
 for pkg in bash zsh vim tmux nvim; do
     info "  stow $pkg"
-    stow -v --restow "$pkg" 2>&1 | while read -r line; do
+    stow -v --adopt --restow "$pkg" 2>&1 | while read -r line; do
         info "    $line"
     done
 done
+info "Restoring dotfile versions after adopt..."
+git checkout -- .
 
 # Node.js via asdf
 if ! asdf plugin list 2>/dev/null | grep -q nodejs; then
