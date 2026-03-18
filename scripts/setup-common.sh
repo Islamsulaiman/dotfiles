@@ -77,13 +77,13 @@ if command -v brew &>/dev/null && brew list asdf &>/dev/null; then
 elif [ -d "$HOME/.asdf" ]; then
     info "asdf is already installed"
     export ASDF_DIR="$HOME/.asdf"
-    export PATH="$ASDF_DIR/bin:$PATH"
+    export PATH="$ASDF_DIR/bin:$ASDF_DIR/shims:$PATH"
     ASDF_AVAILABLE=true
 else
     info "Installing asdf..."
     if git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.15.0; then
         export ASDF_DIR="$HOME/.asdf"
-        export PATH="$ASDF_DIR/bin:$PATH"
+        export PATH="$ASDF_DIR/bin:$ASDF_DIR/shims:$PATH"
         ASDF_AVAILABLE=true
         ok "asdf installed"
     else

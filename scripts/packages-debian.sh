@@ -97,6 +97,12 @@ else
     info "lazydocker is already installed"
 fi
 
+# Fix broken Docker completion symlink (common on WSL)
+if [ -L /usr/share/zsh/vendor-completions/_docker ] && [ ! -e /usr/share/zsh/vendor-completions/_docker ]; then
+    info "Removing broken Docker completion symlink..."
+    sudo rm -f /usr/share/zsh/vendor-completions/_docker || warn "Could not remove broken Docker completion symlink"
+fi
+
 # gh (GitHub CLI) — install from GitHub's official apt repo
 if ! command -v gh &>/dev/null; then
     info "Installing GitHub CLI..."

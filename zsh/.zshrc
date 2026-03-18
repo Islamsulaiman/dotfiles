@@ -37,9 +37,11 @@ plugins=(
   zsh-vi-mode
 )
 
-# Filter out non-existent dirs from fpath to prevent compinit errors
-# (fixes Docker completion issue on Pop!_OS where vendor-completions may be broken)
-fpath=($fpath(N))
+# Remove vendor-completions from fpath if it contains broken symlinks
+# (fixes Docker completion error on WSL/Pop!_OS where _docker is a broken symlink)
+if [[ -L /usr/share/zsh/vendor-completions/_docker && ! -e /usr/share/zsh/vendor-completions/_docker ]]; then
+    fpath=("${fpath[@]:#/usr/share/zsh/vendor-completions}")
+fi
 
 source "$ZSH/oh-my-zsh.sh"
 
