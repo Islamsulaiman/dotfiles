@@ -1,6 +1,6 @@
 # My Dotfiles
 
-Portable dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/), supporting **macOS** and **Debian-based Linux** (Ubuntu, Pop!_OS, etc.).
+Portable dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/), supporting **macOS**, **Debian-based Linux** (Ubuntu, Pop!_OS), and **WSL**.
 
 ## Quick Start
 
@@ -13,11 +13,22 @@ cd ~/dotfiles
 The install script will:
 
 1. Detect your OS (macOS or Debian-based Linux)
-2. Install all system packages via `brew` or `apt`
+2. Install all system packages via `brew` or `apt` (+ GitHub releases on Debian)
 3. Set up Oh My Zsh, zsh plugins, TPM, and asdf
 4. Stow all config packages into your home directory
-5. Install Node.js, cspell, and gh-dash
-6. Optionally install Ruby + ruby-lsp
+5. Install Node.js via asdf, then cspell via npm
+
+A failure summary is printed at the end showing any steps that failed.
+
+## Uninstall
+
+To tear everything down for a clean re-run:
+
+```bash
+./uninstall.sh
+```
+
+This removes stow symlinks, Oh My Zsh, TPM, asdf (and all runtimes), zsh cache, gh-dash, and GitHub-release binaries on Linux. It does NOT remove system packages, the repo, git config, or SSH keys.
 
 ## Packages
 
@@ -26,9 +37,9 @@ Each top-level directory is a stow package. Run `stow <package>` to symlink it.
 | Package | What it configures |
 |---|---|
 | `bash` | `.bashrc` with asdf and fzf integration |
-| `zsh` | `.zshrc` with Oh My Zsh, zsh-vi-mode, autosuggestions, and syntax highlighting |
+| `zsh` | `.zshrc` with Oh My Zsh, robbyrussell theme, zsh-vi-mode, autosuggestions, syntax highlighting |
 | `vim` | `.vimrc` with system clipboard |
-| `tmux` | `.tmux.conf` with catppuccin theme, vim-tmux-navigator, floax, resurrect |
+| `tmux` | `.tmux.conf` with catppuccin theme, vim-tmux-navigator, floax, resurrect, continuum |
 | `nvim` | LazyVim-based neovim config with custom keymaps, git integrations, and ruby-lsp |
 | `nvim-custom` | Previous custom neovim config (backup, not stowed by default) |
 
@@ -48,9 +59,10 @@ Only one of `nvim` or `nvim-custom` can be stowed at a time since they target th
 
 After running `install.sh`:
 
-1. Open a new terminal (or run `exec zsh`) to load the shell config
+1. Log out and back in (or run `exec zsh`) to load the shell config
 2. Open tmux and press `prefix + I` (Ctrl-b then I) to install tmux plugins
 3. Open nvim — lazy.nvim auto-installs all plugins on first launch
+4. Run `gh auth login` to authenticate GitHub CLI, then gh-dash will work
 
 ## Dependencies
 
@@ -64,6 +76,8 @@ Installed automatically by `install.sh`:
 
 **Via npm:** cspell
 
-**Via gh:** gh-dash
+**Via gh:** gh-dash (requires `gh auth login` first)
 
-**Optional:** Ruby + ruby-lsp (prompted during install)
+## AI Context
+
+See [SKILLS.md](SKILLS.md) for a detailed architecture reference designed for AI assistants working on this repo.
