@@ -3,8 +3,6 @@
 # ==============================================================================
 export EDITOR="nvim"
 export VISUAL="nvim"
-export CODEBASE="$HOME/code"
-export DISABLE_SPRING=1
 
 # ==============================================================================
 # 2. PATH & ASDF CONFIGURATION
