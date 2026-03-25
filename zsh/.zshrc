@@ -72,3 +72,11 @@ else
         eval "$(keychain --quiet --eval --agents ssh github 2>/dev/null)"
     fi
 fi
+
+# ==============================================================================
+# 7.  LOAD MACHINE-SPECIFIC SETTINGS AND PATHS IF THERES ANY
+# ==============================================================================
+
+if [[ -f ~/.zshrc.local ]]; then
+      source ~/.zshrc.local
+fi
