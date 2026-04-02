@@ -8,14 +8,15 @@ vim.fn.setreg("c", "gg_vG$y")
 
 local function open_pr_for_current_line()
   local line = vim.fn.line(".")
-  local file = vim.fn.expand("%")
+  local file = vim.fn.expand("%:p")
+  local file_dir = vim.fn.expand("%:p:h")
 
   if file == "" then
     vim.notify("No file open", vim.log.levels.WARN)
     return
   end
 
-  local blame_cmd = "git blame -L " .. line .. "," .. line .. " " .. vim.fn.shellescape(file) .. " | awk '{print $1}'"
+  local blame_cmd = "git -C " .. vim.fn.shellescape(file_dir) .. " blame -L " .. line .. "," .. line .. " " .. vim.fn.shellescape(file) .. " | awk '{print $1}'"
   local commit_hash = vim.fn.system(blame_cmd):gsub("%s+", "")
 
   if commit_hash == "" or commit_hash == "0000000000000000000000000000000000000000" then
@@ -23,7 +24,7 @@ local function open_pr_for_current_line()
     return
   end
 
-  local pr_cmd = "gh pr list --search " .. commit_hash .. " --state merged --json number,title,url --limit 1"
+  local pr_cmd = "cd " .. vim.fn.shellescape(file_dir) .. " && gh api repos/{owner}/{repo}/commits/" .. commit_hash .. "/pulls --jq '.[0] | {number, title, url: .html_url}'"
   local pr_result = vim.fn.system(pr_cmd)
 
   if vim.v.shell_error ~= 0 then
@@ -32,18 +33,17 @@ local function open_pr_for_current_line()
   end
 
   local ok, pr_data = pcall(vim.fn.json_decode, pr_result)
-  if not ok or not pr_data or #pr_data == 0 then
+  if not ok or not pr_data or not pr_data.url then
     vim.notify("No merged PR found for this line", vim.log.levels.WARN)
     return
   end
 
-  local pr = pr_data[1]
-  vim.notify("Opening PR #" .. pr.number .. ": " .. pr.title, vim.log.levels.INFO)
+  vim.notify("Opening PR #" .. pr_data.number .. ": " .. pr_data.title, vim.log.levels.INFO)
 
   if vim.fn.has("mac") == 1 then
-    vim.fn.system("open " .. vim.fn.shellescape(pr.url))
+    vim.fn.system("open " .. vim.fn.shellescape(pr_data.url))
   else
-    vim.fn.system("xdg-open " .. vim.fn.shellescape(pr.url))
+    vim.fn.system("xdg-open " .. vim.fn.shellescape(pr_data.url))
   end
 end
 
